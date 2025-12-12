@@ -2,12 +2,7 @@ package main
 
 import "fmt"
 
-// types for Items, InventorySpaces and Inventories.
-type Item struct {
-	ID       string
-	Name     string
-	MaxStack int
-}
+// types for InventorySpaces and Inventories. Item defined in materials.go
 
 type Space struct {
 	Item       Item
