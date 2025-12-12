@@ -5,6 +5,7 @@ type Item struct {
 	Name     string
 	MaxStack int
 	Rarity   int
+	ItemType string
 }
 
 var Wood Item = Item{
@@ -12,6 +13,7 @@ var Wood Item = Item{
 	Name:     "Wood",
 	MaxStack: 64,
 	Rarity:   0,
+	ItemType: "material",
 }
 
 var Stone Item = Item{
@@ -19,6 +21,7 @@ var Stone Item = Item{
 	Name:     "Stone",
 	MaxStack: 64,
 	Rarity:   1,
+	ItemType: "material",
 }
 
 var Coal Item = Item{
@@ -26,6 +29,7 @@ var Coal Item = Item{
 	Name:     "Coal",
 	MaxStack: 64,
 	Rarity:   1,
+	ItemType: "material",
 }
 
 var Iron Item = Item{
@@ -33,6 +37,7 @@ var Iron Item = Item{
 	Name:     "Iron",
 	MaxStack: 64,
 	Rarity:   1,
+	ItemType: "material",
 }
 
 var Steel Item = Item{
@@ -40,13 +45,15 @@ var Steel Item = Item{
 	Name:     "Steel",
 	MaxStack: 64,
 	Rarity:   2,
+	ItemType: "material",
 }
 
 var Mithril Item = Item{
 	ID:       "00006",
 	Name:     "Mithril",
 	MaxStack: 16,
-	Rarity:   1,
+	Rarity:   4,
+	ItemType: "material",
 }
 
 var DragonBones Item = Item{
@@ -54,4 +61,5 @@ var DragonBones Item = Item{
 	Name:     "Dragon Bones",
 	MaxStack: 2,
 	Rarity:   5,
+	ItemType: "material",
 }

@@ -1,10 +1,10 @@
 package main
 
 type WeaponPart struct {
-	Name string
-	Type string
-	Material
+	Item
+	PartType string
 }
+
 type Weapon struct {
 	Damage float64
 	Speed  float64
