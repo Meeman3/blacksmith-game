@@ -4,36 +4,20 @@ import (
 	"testing"
 )
 
-var Item1 = Item{
-	ID:       "1",
-	Name:     "item1",
-	MaxStack: 64,
-}
+var Item1 = Wood
 
-var Item2 = Item{
-	ID:       "2",
-	Name:     "item2",
-	MaxStack: 16,
-}
+var Item2 = Mithril
 
-var Item3 = Item{
-	ID:       "3",
-	Name:     "item3",
-	MaxStack: 2,
-}
+var Item3 = DragonBones
 
-var Item4 = Item{
-	ID:       "4",
-	Name:     "item4",
-	MaxStack: 1,
-}
+var Item4 Item = defaultSword
 
 func makeTestInventory() Inventory {
 	defaultSpace := Space{
-		Item: Item{
-			ID:       "",
-			Name:     "",
-			MaxStack: 0,
+		Item: Material{
+			BasicItem: BasicItem{ID: "",
+				Name:     "",
+				MaxStack: 0},
 		},
 		StackCount: 0,
 		Locked:     false,
@@ -84,10 +68,10 @@ func TestAddItem(t *testing.T) {
 		Locked:     false,
 	}
 	invShouldBe.Spaces[5] = Space{
-		Item: Item{
-			ID:       "",
-			Name:     "",
-			MaxStack: 0,
+		Item: Material{
+			BasicItem: BasicItem{ID: "",
+				Name:     "",
+				MaxStack: 0},
 		},
 		StackCount: 0,
 		Locked:     true,
@@ -144,10 +128,10 @@ func TestRemoveItem(t *testing.T) {
 	}
 
 	invShouldBe.Spaces[5] = Space{
-		Item: Item{
-			ID:       "",
-			Name:     "",
-			MaxStack: 0,
+		Item: Material{
+			BasicItem: BasicItem{ID: "",
+				Name:     "",
+				MaxStack: 0},
 		},
 		StackCount: 0,
 		Locked:     true,

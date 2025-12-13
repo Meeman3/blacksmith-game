@@ -14,7 +14,8 @@ type Inventory struct {
 	Spaces []Space
 }
 
-var EmptyItem = Item{
+// "Empty" items and spaces, defaults
+var EmptyItem = BasicItem{
 	ID:       "",
 	Name:     "",
 	MaxStack: 0,
@@ -31,7 +32,7 @@ func (i *Inventory) TotalCount(ID string) int {
 	num := 0
 
 	for j := 0; j < len(i.Spaces); j++ {
-		if i.Spaces[j].Item.ID == ID {
+		if i.Spaces[j].Item.GetID() == ID {
 			num += i.Spaces[j].StackCount
 		}
 	}
@@ -47,8 +48,8 @@ func (i *Inventory) AddItem(item Item, amount int) {
 	for j := 0; j < len(i.Spaces); j++ {
 		if i.Spaces[j].Item == item && !stacked {
 			fmt.Print("adding to stack\n")
-			if i.Spaces[j].StackCount < i.Spaces[j].Item.MaxStack {
-				countDifference := i.Spaces[j].Item.MaxStack - i.Spaces[j].StackCount
+			if i.Spaces[j].StackCount < i.Spaces[j].Item.GetMaxStack() {
+				countDifference := i.Spaces[j].Item.GetMaxStack() - i.Spaces[j].StackCount
 				// if the amount to add is more than available space, add to max then continue searching
 				if amount > countDifference {
 					amount -= countDifference
@@ -66,13 +67,13 @@ func (i *Inventory) AddItem(item Item, amount int) {
 	// if can't stack then adds to new  space
 	if !stacked {
 		for j := 0; j < len(i.Spaces); j++ {
-			if i.Spaces[j].Item.ID == "" && !i.Spaces[j].Locked {
+			if i.Spaces[j].Item.GetID() == "" && !i.Spaces[j].Locked {
 				fmt.Print("adding to new space\n")
 				i.Spaces[j].Item = item
 				// if amount to add is greater than max stack, makes a full stack and carries the rest on
-				if item.MaxStack < amount {
-					i.Spaces[j].StackCount = item.MaxStack
-					amount -= item.MaxStack
+				if item.GetMaxStack() < amount {
+					i.Spaces[j].StackCount = item.GetMaxStack()
+					amount -= item.GetMaxStack()
 				} else {
 					i.Spaces[j].StackCount = amount
 					stacked = true
@@ -89,7 +90,7 @@ func (i *Inventory) AddItem(item Item, amount int) {
 
 func (i *Inventory) RemoveItem(item Item, amount int) {
 	// if there isn't enough in in, cancel
-	if i.TotalCount(item.ID) < amount {
+	if i.TotalCount(item.GetID()) < amount {
 		fmt.Printf("Not enough items\n")
 		return
 	}
