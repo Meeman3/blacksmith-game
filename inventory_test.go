@@ -76,6 +76,8 @@ func TestAddItem(t *testing.T) {
 		StackCount: 0,
 		Locked:     true,
 	}
+	inv.SaveInventory()
+	inv.LoadInventory()
 
 	for j := 0; j < len(invShouldBe.Spaces); j++ {
 		if inv.Spaces[j] != invShouldBe.Spaces[j] {
@@ -136,6 +138,9 @@ func TestRemoveItem(t *testing.T) {
 		StackCount: 0,
 		Locked:     true,
 	}
+
+	inv.SaveInventory()
+	inv.LoadInventory()
 
 	for j := 0; j < len(invShouldBe.Spaces); j++ {
 		if inv.Spaces[j] != invShouldBe.Spaces[j] {

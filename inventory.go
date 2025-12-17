@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+)
 
 // types for InventorySpaces and Inventories. Item defined in materials.go
 
@@ -40,11 +44,11 @@ func (i *Inventory) TotalCount(ID string) int {
 	return num
 }
 
-func (i *Inventory) TotalCountName(Namw string) int {
+func (i *Inventory) TotalCountName(Name string) int {
 	num := 0
 
 	for j := 0; j < len(i.Spaces); j++ {
-		if i.Spaces[j].Item.GetName() == Namw {
+		if i.Spaces[j].Item.GetName() == Name {
 			num += i.Spaces[j].StackCount
 		}
 	}
@@ -125,4 +129,18 @@ func (i *Inventory) RemoveItem(item Item, amount int) {
 		}
 	}
 
+}
+
+// functions for saving and loading the inventory, using encoding/json
+func (i *Inventory) SaveInventory() error {
+	save, _ := json.Marshal(i)
+
+	return os.WriteFile("inventory.json", save, 0644)
+}
+
+func (i *Inventory) LoadInventory() error {
+	loadedInv, _ := os.ReadFile("inventory.json")
+	err := json.Unmarshal(loadedInv, i)
+
+	return err
 }
