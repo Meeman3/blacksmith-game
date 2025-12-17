@@ -42,9 +42,13 @@ var defaultPart WeaponPart = WeaponPart{
 		ID:       "P000001",
 		Name:     "BasicPart",
 		MaxStack: 32},
-	PartType: "Basic",
+	PartType:           "Basic",
+	DamageMultiplier:   1.0,
+	HandlingMultiplier: 1.0,
+	WeightMultiplier:   1.0,
 }
-var defaultSword Item = CreateWeapon("Sword", defaultPart, defaultPart, defaultPart)
+
+var defaultSword Item = CreateWeapon("Sword", defaultPart, defaultPart, defaultPart).(Sword)
 
 func newPartID() string {
 	HighestPartID++

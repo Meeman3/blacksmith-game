@@ -86,3 +86,14 @@ var DragonBones Material = Material{
 	HandlingMultiplier: 6,
 	HardnessMultiplier: 6,
 }
+
+var Oricalchum Material = Material{
+	BasicItem: BasicItem{ID: "00006",
+		Name:     "Mithril",
+		MaxStack: 16},
+	Rarity:             4,
+	DamageMultiplier:   5,
+	WeightMultiplier:   5,
+	HandlingMultiplier: 5,
+	HardnessMultiplier: 5,
+}

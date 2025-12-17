@@ -40,13 +40,22 @@ func (i *Inventory) TotalCount(ID string) int {
 	return num
 }
 
-func (i *Inventory) AddItem(item Item, amount int) {
-	// check or if it stacks before putting in new slot
-	stacked := false
+func (i *Inventory) TotalCountName(Namw string) int {
+	num := 0
 
-	// iterable for checking if open stacks of item exist
 	for j := 0; j < len(i.Spaces); j++ {
-		if i.Spaces[j].Item == item && !stacked {
+		if i.Spaces[j].Item.GetName() == Namw {
+			num += i.Spaces[j].StackCount
+		}
+	}
+
+	return num
+}
+
+func (i *Inventory) AddItem(item Item, amount int) {
+	// check if stackable using amount
+	for j := 0; j < len(i.Spaces) && amount > 0; j++ {
+		if i.Spaces[j].Item.GetID() == item.GetID() {
 			fmt.Print("adding to stack\n")
 			if i.Spaces[j].StackCount < i.Spaces[j].Item.GetMaxStack() {
 				countDifference := i.Spaces[j].Item.GetMaxStack() - i.Spaces[j].StackCount
@@ -56,8 +65,7 @@ func (i *Inventory) AddItem(item Item, amount int) {
 					i.Spaces[j].StackCount += countDifference
 				} else {
 					i.Spaces[j].StackCount += amount
-					// if all wanting to add is stacked, doesn't continue
-					stacked = true
+					amount = 0
 					break
 				}
 			}
@@ -65,41 +73,39 @@ func (i *Inventory) AddItem(item Item, amount int) {
 	}
 
 	// if can't stack then adds to new  space
-	if !stacked {
-		for j := 0; j < len(i.Spaces); j++ {
-			if i.Spaces[j].Item.GetID() == "" && !i.Spaces[j].Locked {
-				fmt.Print("adding to new space\n")
-				i.Spaces[j].Item = item
-				// if amount to add is greater than max stack, makes a full stack and carries the rest on
-				if item.GetMaxStack() < amount {
-					i.Spaces[j].StackCount = item.GetMaxStack()
-					amount -= item.GetMaxStack()
-				} else {
-					i.Spaces[j].StackCount = amount
-					stacked = true
-					break
-				}
+	for j := 0; j < len(i.Spaces) && amount > 0; j++ {
+		if i.Spaces[j].Item.GetID() == "" && !i.Spaces[j].Locked {
+			fmt.Print("adding to new space\n")
+			i.Spaces[j].Item = item
+			// if amount to add is greater than max stack, makes a full stack and carries the rest on
+			if item.GetMaxStack() < amount {
+				i.Spaces[j].StackCount = item.GetMaxStack()
+				amount -= item.GetMaxStack()
+			} else {
+				i.Spaces[j].StackCount = amount
+				amount = 0
+				break
 			}
 		}
 	}
 
-	if !stacked {
+	if amount > 0 {
 		fmt.Print("No space for items \n")
 	}
 }
 
 func (i *Inventory) RemoveItem(item Item, amount int) {
-	// if there isn't enough in in, cancel
+	// if there isn't enough in, cancel
 	if i.TotalCount(item.GetID()) < amount {
 		fmt.Printf("Not enough items\n")
 		return
 	}
 
-	// iterable ovar all spaces
-	for j := 0; j < len(i.Spaces); j++ {
+	// use amount to keep track of when to end
+	for j := 0; j < len(i.Spaces) && amount > 0; j++ {
 		// used to go from the end of spaces instead of start (so we won't have multiple non-full stacks)
 		k := len(i.Spaces) - j - 1
-		if i.Spaces[k].Item == item {
+		if i.Spaces[k].Item.GetID() == item.GetID() {
 			fmt.Printf("Removing item(s)\n")
 			// compares amount to remove to amount in space and remoess accordingly
 			if amount > i.Spaces[k].StackCount {
